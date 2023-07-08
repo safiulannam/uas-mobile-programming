@@ -16,10 +16,10 @@ const WeatherApp = ({ route }) => {
       );
       var data = await weather.json(); 
       if (!(data.cod === 200))
-        throw Error("Something went wrong");
+        throw Error("Ada yang salah");
       return data;
     } catch (error) {
-      Alert.alert("Something Went Wrong", error.message, [
+      Alert.alert("Ada yang salah", error.message, [
         {
           text: "Cancel",
           onPress: () => pass,
@@ -63,7 +63,7 @@ const WeatherApp = ({ route }) => {
       setCurrWeatherData(data);
       setLoading(false);
     } catch (error) {
-      Alert.alert("Something Went Wrong", error.message, [
+      Alert.alert("Ada yang salah", error.message, [
         {
           text: "Cancel",
           onPress: () => pass,

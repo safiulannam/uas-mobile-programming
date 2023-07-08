@@ -1,7 +1,19 @@
 import React from "react";
-import { View, Image, Text, StyleSheet } from "react-native";
+import { Camera, CameraType } from 'expo-camera';
+import { useState } from 'react';
+import { View, Image, Text, StyleSheet, Button, TouchableOpacity } from "react-native";
 
 const ProfileScreen = ({navigation, route}) => {
+  const [type, setType] = useState(CameraType.back);
+  const [permission, requestPermission] = Camera.useCameraPermissions();
+
+  if (!permission) {
+    // Camera permissions are still loading
+    return <View />;
+  }
+
+  if (!permission.granted) {
+    // Camera permissions are not granted yet
   return (
     <View style={styles.container}>
       <View style={styles.profileContainer}>
@@ -22,12 +34,33 @@ const ProfileScreen = ({navigation, route}) => {
           </View>
           <View style={styles.infoRow}>
             <Text style={styles.infoLabel}>Password:</Text>
-            <Text style={styles.infoValue}>Dont Worry, we wont release your Password</Text>
+            <Text style={styles.infoValue}>Jangan Khawatir, kami tidak akan merilis Kata Sandi Anda</Text>
           </View>
+          <View style={styles.infoRow}>
+          <Text style={{ textAlign: 'auto' }}>Kami membutuhkan izin Anda untuk menunjukkan kamera</Text>
+          </View>
+          <Button onPress={requestPermission} title="grant permission" />
         </View>
       </View>
     </View>
   );
+}
+
+function toggleCameraType() {
+  setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
+}
+
+return (
+  <View style={styles.container}>
+    <Camera style={styles.camera} type={type}>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
+          <Text style={styles.text}>Flip Camera</Text>
+        </TouchableOpacity>
+      </View>
+    </Camera>
+  </View>
+);
 }
 
 const styles = StyleSheet.create({
@@ -75,6 +108,20 @@ const styles = StyleSheet.create({
     width: "70%",
     fontSize: 16,
     color: "#333",
+  },
+  camera: {
+    flex: 1,
+  },
+  buttonContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: 'transparent',
+    margin: 64,
+  },
+  button: {
+    flex: 1,
+    alignSelf: 'flex-end',
+    alignItems: 'center',
   },
 });
 

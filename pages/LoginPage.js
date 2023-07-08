@@ -27,7 +27,7 @@ const LoginScreen = ({ navigation }) => {
     try {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
+        setErrorMsg("Izin untuk mengakses lokasi ditolak");
         return;
       }
       let location = await Location.getCurrentPositionAsync({});
@@ -39,14 +39,14 @@ const LoginScreen = ({ navigation }) => {
         userDetails.email === "" ||
         userDetails.password === ""
       )
-        throw Error("Please fill all fields");
+        throw Error("Harap isi semua kolom");
       if (userDetails.longitude === "" || userDetails.latitude === "")
-        throw Error("You have to Allow Location Access");
+        throw Error("Anda harus Mengizinkan Akses Lokasi");
       if (userDetails.password !== userDetails.confirmPass)
-        throw Error("Password and Confirm Password are not the same");
+        throw Error("Kata Sandi dan Konfirmasi Kata Sandi tidak sama");
       navigation.navigate("UserHome", { ...userDetails });
     } catch (error) {
-      Alert.alert("Something Went Wrong", error.message, [
+      Alert.alert("Ada yang salah", error.message, [
         {
           text: "Cancel",
           onPress: () => pass,
@@ -133,7 +133,7 @@ const LoginScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   loginPageContainer: {
     flex: 1,
-    backgroundColor: "#EAF2F8",
+    backgroundColor: "#B0E0E6",
     alignItems: "center",
     justifyContent: "center",
     rowGap: 30,
